@@ -1,7 +1,11 @@
 
+using InventoryConsumerV8.Models;
 using InventoryConsumerV8.Options;
+using InventoryConsumerV8.Services;
 using KafkaConsumerHost.Extensions;
 using KafkaConsumerHost.Options;
+using MongoODM.Net.Extensions;
+using MongoODM.Net.Options;
 
 var host = CreateHostBuilder(args).Build();
 await host.RunAsync();
@@ -22,4 +26,10 @@ IHostBuilder CreateHostBuilder(string[]args)=>Host
             logging.AddConsole();
             logging.AddDebug();
         });
+        
+        //
+        services.AddMongoDbContext(configuration);
+        services.AddMongoRepository<Inventory>("ShoppeDb");
+
+        services.AddScoped<IInventoryService, InventoryService>();
     });

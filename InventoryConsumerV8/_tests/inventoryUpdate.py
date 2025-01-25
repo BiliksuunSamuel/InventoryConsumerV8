@@ -14,7 +14,8 @@ while i < 1:
         "ImageUrl": "http://example.com/updated_image.jpg",
         "Price": 149.99,
         "Name": "Updated Item",
-        "UpdatedBy": "admin"
+        "UpdatedBy": "admin",
+        "Id":"4af463a3e2694b5491107c9dbaac9782"
     }
                   )
     i = i + 1
