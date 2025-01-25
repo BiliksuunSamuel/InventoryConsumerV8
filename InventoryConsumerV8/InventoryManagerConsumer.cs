@@ -27,6 +27,7 @@ public class InventoryManagerConsumer : KafkaConsumerBase
     [ConsumeTopic(FromType = typeof(IOptions<KafkaExtra>), PropertyName = nameof(KafkaExtra.InventoryUpdateTopic))]
     public async Task DoHandleUpdateInventory(InventoryUpdateRequest message)
     {
+        
         await Task.CompletedTask;
         _logger.LogInformation("received message to update inventory\nmessage={message}",
             JsonConvert.SerializeObject(message));

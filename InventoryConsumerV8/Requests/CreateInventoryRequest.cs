@@ -1,3 +1,4 @@
+// ReSharper disable All
 namespace InventoryConsumerV8.Requests;
 
 public class CreateInventoryRequest
