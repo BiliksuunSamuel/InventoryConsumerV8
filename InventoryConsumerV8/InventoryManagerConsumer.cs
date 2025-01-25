@@ -1,3 +1,6 @@
+using AkkaNetApiAdapter.HelperMethods;
+using InventoryConsumerV8.Actors;
+using InventoryConsumerV8.Models;
 using InventoryConsumerV8.Options;
 using InventoryConsumerV8.Requests;
 using InventoryConsumerV8.Services;
@@ -41,8 +44,8 @@ public class InventoryManagerConsumer : KafkaConsumerBase
         _logger.LogInformation("received message to update inventory\nmessage={message}",
             JsonConvert.SerializeObject(message));
 
-        var service = _serviceProvider.GetRequiredService<IInventoryService>();
-        var res = await service.UpdateInventoryAsync(message);
+        var service = _serviceProvider.GetRequiredService<IAkkaActorEventService>();
+        var res = await service.ActorAskAsync<InventoryActor, InventoryUpdateRequest, Inventory>(message);
         _logger.LogInformation("response from updating inventory\nresponse={response}",
             JsonConvert.SerializeObject(res, Formatting.Indented));
     }

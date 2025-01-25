@@ -1,13 +1,18 @@
 
+using Akka.Actor;
+using AkkaNetApiAdapter.Extensions;
+using AkkaNetApiAdapter.Options;
+using InventoryConsumerV8.Actors;
 using InventoryConsumerV8.Models;
 using InventoryConsumerV8.Options;
+using InventoryConsumerV8.Requests;
 using InventoryConsumerV8.Services;
 using KafkaConsumerHost.Extensions;
 using KafkaConsumerHost.Options;
 using MongoODM.Net.Extensions;
-using MongoODM.Net.Options;
 
 var host = CreateHostBuilder(args).Build();
+ResolveActorSystem(host);
 await host.RunAsync();
 return;
 
@@ -32,4 +37,17 @@ IHostBuilder CreateHostBuilder(string[]args)=>Host
         services.AddMongoRepository<Inventory>("ShoppeDb");
 
         services.AddScoped<IInventoryService, InventoryService>();
+        
+        //
+        services.AddActorSystem(c => configuration.GetSection(nameof(ActorConfig)).Bind(c),
+            actorTypes: new[] { typeof(InventoryActor) },
+            subscriptions: new[] { (typeof(InventoryActor), typeof(InventoryUpdateRequest)) });
     });
+
+
+static IHost ResolveActorSystem(IHost host)
+{
+    var actorSystem = host.Services.GetRequiredService<ActorSystem>();
+    _ = actorSystem ?? throw new ArgumentNullException(nameof(actorSystem));
+    return host;
+}

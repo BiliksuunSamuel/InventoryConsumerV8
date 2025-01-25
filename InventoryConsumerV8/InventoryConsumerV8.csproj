@@ -8,6 +8,7 @@
     </PropertyGroup>
 
     <ItemGroup>
+        <PackageReference Include="AkkaNetApiAdapter" Version="1.1.37" />
         <PackageReference Include="KafkaConsumerHost" Version="1.0.1" />
         <PackageReference Include="Mapster" Version="7.4.0" />
         <PackageReference Include="Microsoft.Extensions.Hosting" Version="8.0.1"/>
